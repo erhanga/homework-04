@@ -20,10 +20,17 @@ tweets <- read.table(file = "data/clinton_trump_tweets.csv", header = T,
 
 # 2. feladat
 
+# létrehoztam egy vektort, amibe a tweetek gyakorisága került, nevek szerint
+
 tweet_counts <- table(tweets$handle)
 tweet_counts
 
+# létrehoztam egy név változót, amibe a jelöltek neve került
+
 names <- c("Hillary Clinton", "Donald Trump")
+
+# létrehoztam az oszlopdiagramot a megadott színekkel, jelmagyarázattal
+
 png("fig/tweet1.png", width = 960, height = 700, res = 120)
 barplot(tweet_counts,
         col = c("#0000FF", "#FF0000"),
@@ -36,6 +43,9 @@ dev.off()
 
 # 3. feladat
 
+# a csv-ben átírtam a nem angol vagy spanyol kódokat
+# létrehoztam a megadott színekkel az ábrát
+
 library(ggplot2)
 
 ggplot(tweets, aes(x = handle, fill = lang)) +
@@ -47,6 +57,8 @@ ggsave("fig/tweet2.png", width = 10, height = 5, dpi = 100)
 
 # 4. feladat
 
+# lásd functionsben
+
 get_top_tweets("Hillary Clinton")
 get_top_tweets("Donald Trump", 15)
 
@@ -54,13 +66,19 @@ get_top_tweets("Donald Trump", 15)
 
 # 1. feladat
 
+# betöltöm a datasetet
+
 library(fivethirtyeight)
 data(hiphop_cand_lyrics)
+
+# létrehozok két vektort a színeknek és a neveknek
 
 colors <- c("#a6d854", "#66c2a5", "#ffd92f", "#fec075",
             "#94d7fa", "#ff8974", "#fccde5", "#e78ac3")
 names <- c("Carson", "Sanders", "Christie", "Trump",
            "Clinton", "Bush", "Huckabee", "Cruz")
+
+# kirajzoljuk a diagramot
 
 ggplot(hiphop_cand_lyrics, aes(x = album_release_date, fill = candidate)) +
   geom_bar(stat = "count", position = position_stack()) +
@@ -70,6 +88,8 @@ ggplot(hiphop_cand_lyrics, aes(x = album_release_date, fill = candidate)) +
   scale_fill_manual(values = colors, labels = names)
 
 ggsave("fig/hiphop1.png", width = 10, height = 5, dpi = 100)
+
+# kirajzolom a másikat is
 
 ggplot(hiphop_cand_lyrics, aes(x = album_release_date, fill = candidate)) +
   geom_bar(stat = "count", position = position_stack()) +
@@ -82,6 +102,8 @@ ggplot(hiphop_cand_lyrics, aes(x = album_release_date, fill = candidate)) +
 ggsave("fig/hiphop2.png", width = 10, height = 5, dpi = 100)
 
 # 2. feladat
+
+# külön ábrázolom a personal és political témájú tweeteket
 
 themes <- hiphop_cand_lyrics[is.element(hiphop_cand_lyrics$theme,
                                         c("personal", "political")), ]
